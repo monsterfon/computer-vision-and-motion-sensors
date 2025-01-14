@@ -1,0 +1,13 @@
+function [A, AW, f] = fnDTFTROI(RGBROI, GV)
+
+L = length(RGBROI);
+%% DTFT
+omega     = linspace(GV.omDTFTMin,GV.omDTFTMax,GV.DTFTNumOfPoints); 
+f         = GV.omega/2/pi*GV.fsDeafult*60;
+[~,A,~,~] = fnDTFT(RGBROI, omega); 
+%% windowing
+w         = hamming(L); 
+W         = w*ones(1,size(RGBROI,2));
+RGBROIw         = RGBROI.*W;
+[~,AW,~,~] = fnDTFT(RGBROIw, GV.omega); 
+
